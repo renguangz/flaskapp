@@ -12,6 +12,10 @@ app.config['SQLALCHEMY_BINDS'] = {
 
 db = SQLAlchemy(app)
 
+@app.route('/')
+def index():
+    return { 'home': 'Hello' }
+
 @app.route('/api/time')
 def get_current_time():
     return { 'time': time.time() }
