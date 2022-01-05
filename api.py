@@ -35,8 +35,6 @@ app.config['SQLALCHEMY_BINDS'] = {
 
 db = SQLAlchemy(app)
 
-
-@app.route('/')
 @app.route('/')
 def server():
     # return send_from_directory(app.static_folder, 'index.html')
@@ -95,11 +93,12 @@ def id_and_name_serializer(stock):
 
 @app.route('/api/search', methods=['GET'])
 def search_stock():
-    data = [*map(id_and_name_serializer, StockIdName.query.all())]
-    del(data[651])
-    data = data[1:952]
-    read_data = jsonify(data)
-    return read_data
+    if request.method == 'GET':
+        data = [*map(id_and_name_serializer, StockIdName.query.all())]
+        del(data[651])
+        data = data[1:952]
+        read_data = jsonify(data)
+        return read_data
 
 
 class Balance(object):
