@@ -91,9 +91,9 @@ def id_and_name_serializer(stock):
     }
 
 
-@app.route('/api/search', methods=['GET'])
+@app.route('/api/search', methods=['GET', 'POST'])
 def search_stock():
-    if request.method == 'GET':
+    if request.method == 'POST':
         data = [*map(id_and_name_serializer, StockIdName.query.all())]
         del(data[651])
         data = data[1:952]
