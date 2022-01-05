@@ -1,8 +1,20 @@
 from flask import Flask, jsonify, request, json
 from flask_sqlalchemy import SQLAlchemy
 import time
+from flask_cors import CORS
 
 app = Flask(__name__)
+
+CORS(app)
+headers = {
+    'Cache-Control': 'no-cache, no-store, must-revalidate',
+    'Pragma': 'no-cache',     'Expires': '0',
+    'Access-Control-Allow-Origin': 'http://localhost:3000',
+    # 'Access-Control-Allow-Origin': 'http://18.217.169.110:80',
+    'Access-Control-Allow-Origin': '*',
+    'Access-Control-Allow-Methods': 'GET, POST, PATCH, PUT, DELETE, OPTIONS',
+    'Access-Control-Allow-Headers': 'Origin, Content-Type, X-Auth-Token'
+}
 
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///data/price.db'
@@ -12,13 +24,16 @@ app.config['SQLALCHEMY_BINDS'] = {
 
 db = SQLAlchemy(app)
 
-@app.route('/')
-def index():
-    return { 'home': 'Hello' }
 
-@app.route('/api/time')
+@ app.route('/')
+def index():
+    return {'home': 'Hello'}
+
+
+@ app.route('/api/time')
 def get_current_time():
-    return { 'time': time.time() }
+    return {'time': time.time()}
+
 
 class Price(object):
     __bind_key__ = 'price'
@@ -60,7 +75,7 @@ def price_serializer(price):
     }
 
 
-@app.route('/api/stockprice', methods=['POST', 'GET'])
+@ app.route('/api/stockprice', methods=['POST', 'GET'])
 def price_display():
     if request.method == 'POST':
         request_data = json.loads(request.data)
