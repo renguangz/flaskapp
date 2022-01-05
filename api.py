@@ -35,6 +35,7 @@ app.config['SQLALCHEMY_BINDS'] = {
 
 db = SQLAlchemy(app)
 
+
 @app.route('/')
 def server():
     # return send_from_directory(app.static_folder, 'index.html')
@@ -84,6 +85,9 @@ class StockIdName(db.Model):
     __tablename__ = 'stock_name'
     id_and_name = db.Column('有價證券代號及名稱', db.String, primary_key=True)
 
+    def __init__(self, id_and_name):
+        self.id_and_name = id_and_name
+
 
 def id_and_name_serializer(stock):
     return {
@@ -93,7 +97,7 @@ def id_and_name_serializer(stock):
 
 @app.route('/api/search', methods=['GET', 'POST'])
 def search_stock():
-    if request.method == 'POST':
+    if request.method == 'GET':
         data = [*map(id_and_name_serializer, StockIdName.query.all())]
         del(data[651])
         data = data[1:952]
