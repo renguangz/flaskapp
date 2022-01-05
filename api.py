@@ -25,12 +25,12 @@ app.config['SQLALCHEMY_BINDS'] = {
 db = SQLAlchemy(app)
 
 
-@ app.route('/')
+@app.route('/')
 def index():
     return {'home': 'Hello'}
 
 
-@ app.route('/api/time')
+@app.route('/api/time')
 def get_current_time():
     return {'time': time.time()}
 
@@ -75,7 +75,7 @@ def price_serializer(price):
     }
 
 
-@ app.route('/api/stockprice', methods=['POST', 'GET'])
+@app.route('/api/stockprice', methods=['POST', 'GET'])
 def price_display():
     if request.method == 'POST':
         request_data = json.loads(request.data)
